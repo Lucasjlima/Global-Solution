@@ -85,11 +85,7 @@ public class HelpRequestService {
 
 
     public HelpRequest findHelpById(Long id) {
-        var helpRequest = helpRequestRepository.findById(id);
-        if (helpRequest.isEmpty()) {
-            throw new NotFoundException("Nenhum objeto foi encontrado com o id: " + id);
-        }
-        return helpRequest.get();
+        return helpRequestRepository.findById(id).orElseThrow(() -> new fiap.tds.exceptions.NotFoundException("Pedido de ajuda com ID " + id + " não encontrado."));
     }
 
     // This method will return all help requests, GET request maybe will exclusively for admins.
@@ -100,7 +96,7 @@ public class HelpRequestService {
                     .filter(h -> h.getStatus().equals(Status.PENDENTE) || h.getStatus().equals(Status.EM_ANDAMENTO))
                     .toList();
         } else {
-            throw new NotFoundException("Nenhuma solicitação de ajuda encontrada.");
+            throw new fiap.tds.exceptions.NotFoundException("Nenhuma solicitação de ajuda encontrada.");
         }
     }
 

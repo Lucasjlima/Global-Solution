@@ -12,6 +12,10 @@ import jakarta.ws.rs.client.Invocation;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +31,11 @@ public class ChatResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
+    @Operation(summary = "Interage com o chatbot", description = "Envia uma mensagem para o chatbot e recebe uma resposta")
+    @APIResponses(value = {
+            @APIResponse(responseCode = "201" , description = "Resposta do chatbot recebida com sucesso!"),
+            @APIResponse(responseCode = "400", description = "Erro ao enviar mensagem para o chatbot"),
+    })
     public Response talkToChatBot(Map<String, String> userEntry) {
         String message = userEntry.get("message");
 
